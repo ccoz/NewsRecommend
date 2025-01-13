@@ -1,0 +1,21 @@
+version: "3.2"
+
+services:
+  nacos:
+    image: nacos/nacos-server
+    environment:
+      MODE: standalone
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+  mysql:
+    image: mysql:8.0.27
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+    volumes:
+      - "/home/hy/work/hmall/mysql/data:/var/lib/mysql"
+      - "/home/hy/work/hmall/mysql/conf:/etc/mysql/conf.d/"
+      - "/home/hy/work/hmall/mysql/init:/docker-entrypoint-initdb.d"

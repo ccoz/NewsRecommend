@@ -1,8 +1,8 @@
 server:
-  port: 8081
+  port: 8083
 spring:
   application:
-    name: user-service
+    name: news-service
   cloud:
     nacos:
       server-addr: localhost:8848 # nacos地址
@@ -30,7 +30,7 @@ logging:
 knife4j:
   enable: true
   openapi:
-    title: 用户服务接口文档
+    title: 新闻服务接口文档
     description: "信息"
     email: yangeureka@163.com
     concat: yang
@@ -41,4 +41,4 @@ knife4j:
         group-name: default
         api-rule: package
         api-rule-resources:
-          - csu.nr.user.controller
+          - csu.nr.news.controller
