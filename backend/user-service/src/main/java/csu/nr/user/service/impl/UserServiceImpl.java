@@ -3,10 +3,10 @@ package csu.nr.user.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import csu.nr.user.mapper.UserMapper;
 import csu.nr.user.service.IUserService;
-import csu.yang.api.domain.dto.LoginFormDTO;
-import csu.yang.api.domain.po.User;
-import csu.yang.api.domain.vo.UserLoginVO;
-import csu.yang.api.enums.UserStatus;
+import csu.nr.api.domain.dto.LoginFormDTO;
+import csu.nr.api.domain.po.User;
+import csu.nr.api.domain.vo.UserLoginVO;
+import csu.nr.api.enums.UserStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 

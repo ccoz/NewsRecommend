@@ -1,8 +1,8 @@
 package csu.nr.user.controller;
 
 import csu.nr.user.service.IUserService;
-import csu.yang.api.domain.dto.LoginFormDTO;
-import csu.yang.api.domain.vo.UserLoginVO;
+import csu.nr.api.domain.dto.LoginFormDTO;
+import csu.nr.api.domain.vo.UserLoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

@@ -3,10 +3,10 @@ package csu.nr.news.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import csu.nr.news.mapper.NewMapper;
 import csu.nr.news.service.INewService;
-import csu.yang.api.domain.dto.NewDTO;
-import csu.yang.api.domain.po.New;
-import csu.yang.api.domain.vo.NewDetailVO;
-import csu.yang.api.enums.NewStatus;
+import csu.nr.api.domain.dto.NewDTO;
+import csu.nr.api.domain.po.New;
+import csu.nr.api.domain.vo.NewDetailVO;
+import csu.nr.api.enums.NewStatus;
 import org.springframework.stereotype.Service;
 
 @Service
