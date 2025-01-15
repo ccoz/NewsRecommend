@@ -5,11 +5,11 @@ spring:
     name: news-service
   cloud:
     nacos:
-      server-addr: localhost:8848 # nacos地址
+      server-addr: ${newsrec.nacos.server-addr}:8848 # nacos地址
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://${hm.db.host}:${hm.db.port}/${hm.db.database}?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://${newsrec.db.host}:${newsrec.db.port}/${newsrec.db.database}?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: ${hm.db.pw}

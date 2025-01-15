@@ -1,6 +1,8 @@
-hm:
+newsrec:
   db:
-    host: 127.0.0.1 # 修改为你自己的虚拟机IP地址
+    host: localhost # 修改为你自己的虚拟机IP地址
     port: 3306 # 修改为docker中的MySQL端口
     pw: 123456 # 修改为docker中的MySQL密码
-    database: nr_operation # 修改为你自己的数据库名
+    database: nr_new # 修改为你自己的数据库名
+  nacos:
+    server-addr: 172.29.0.3

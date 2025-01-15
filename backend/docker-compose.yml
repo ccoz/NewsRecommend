@@ -8,6 +8,7 @@ services:
     ports:
       - "8848:8848"
       - "9848:9848"
+
   mysql:
     image: mysql:8.0.27
     environment:
@@ -16,6 +17,30 @@ services:
       - "3306:3306"
       - "33060:33060"
     volumes:
-      - "/home/hy/work/hmall/mysql/data:/var/lib/mysql"
-      - "/home/hy/work/hmall/mysql/conf:/etc/mysql/conf.d/"
-      - "/home/hy/work/hmall/mysql/init:/docker-entrypoint-initdb.d"
+      - "/home/hy/work/NewsRecommend/backend/mysql/data:/var/lib/mysql"
+      - "/home/hy/work/NewsRecommend/backend/mysql/conf:/etc/mysql/conf.d/"
+      # - "/home/hy/work/NewsRecommend/backend/mysql/init:/docker-entrypoint-initdb.d"
+
+  user-service:
+    build: ./user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql
+      - nacos
+
+  news-service:
+    build: ./news-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - mysql
+      - nacos
+
+  operation-service:
+    build: ./operation-service
+    ports:
+      - "8085:8085"
+    depends_on:
+      - mysql
+      - nacos

@@ -4,6 +4,7 @@ logs/
 !**/src/main/**/target/
 !**/src/test/**/target/
 *.log
+mysql/
 
 ### IntelliJ IDEA ###
 .idea/
