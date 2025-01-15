@@ -1,13 +1,24 @@
-version: "3.2"
+version: "3.9"
 
 services:
   nacos:
-    image: nacos/nacos-server
+    image: nacos/nacos-server:v2.2.2-slim
     environment:
       MODE: standalone
+      PREFER_HOST_MODE: hostname
+      JVM_XMS: 256m
+      JVM_XMX: 512m
+      JVM_XMN: 128m
+      JVM_MS: 64m
+      JVM_MMS: 128m
     ports:
       - "8848:8848"
       - "9848:9848"
+      - "9849:9849"
+    networks:
+      newsrec:
+  #      newsrec:
+  #        ipv4_address: 172.20.0.1
 
   mysql:
     image: mysql:8.0.27
@@ -20,6 +31,8 @@ services:
       - "/home/hy/work/NewsRecommend/backend/mysql/data:/var/lib/mysql"
       - "/home/hy/work/NewsRecommend/backend/mysql/conf:/etc/mysql/conf.d/"
       # - "/home/hy/work/NewsRecommend/backend/mysql/init:/docker-entrypoint-initdb.d"
+    networks:
+      - newsrec
 
   user-service:
     build: ./user-service
@@ -28,6 +41,8 @@ services:
     depends_on:
       - mysql
       - nacos
+    networks:
+      - newsrec
 
   news-service:
     build: ./news-service
@@ -36,6 +51,8 @@ services:
     depends_on:
       - mysql
       - nacos
+    networks:
+      - newsrec
 
   operation-service:
     build: ./operation-service
@@ -44,3 +61,12 @@ services:
     depends_on:
       - mysql
       - nacos
+    networks:
+      - newsrec
+
+networks:
+  newsrec:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
