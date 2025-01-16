@@ -1,73 +1,121 @@
-version: "3.9"
+version: '3.8'
 
 services:
   nacos:
-    image: nacos/nacos-server:v2.2.2-slim
-    environment:
-      MODE: standalone
-      PREFER_HOST_MODE: hostname
-      JVM_XMS: 256m
-      JVM_XMX: 512m
-      JVM_XMN: 128m
-      JVM_MS: 64m
-      JVM_MMS: 128m
+    restart: on-failure
+    image: nacos/nacos-server:v2.2.1
+    # 容器名称
+    container_name: nacos
+    # 端口映射
     ports:
-      - "8848:8848"
-      - "9848:9848"
-      - "9849:9849"
+      - 8848:8848
+      - 9848:9848
+      - 9849:9849
+    # 容器权限
+    privileged: true
+    # 参数设置
+    environment:
+      JVM_XMS: 128m
+      JVM_XMX: 128m
+      JVM_MS: 64m
+      JVM_MMS: 64m
+      MODE: standalone
+      NACOS_REPLICAS: 1
+      PREFER_HOST_MODE: hostname
+    volumes:
+      #      - ./nacos/logs:/home/nacos/logs
+      #      - ./nacos/plugins:/home/nacos/plugins
+      #      - ./nacos/data:/home/nacos/data
+      - ./docker/nacos/config/application.properties:/home/nacos/conf/application.properties
+    depends_on:
+      - mysql
     networks:
-      newsrec:
-  #      newsrec:
-  #        ipv4_address: 172.20.0.1
+      newsrec-net:
+        ipv4_address: 172.30.0.3
 
   mysql:
+    container_name: mysql
     image: mysql:8.0.27
-    environment:
-      MYSQL_ROOT_PASSWORD: 123456
+    build:
+      context: ./docker/mysql
+      dockerfile: Dockerfile
     ports:
-      - "3306:3306"
-      - "33060:33060"
+      - "3306:3306" # 有经验的开发不会直接暴露3306端口
     volumes:
-      - "/home/hy/work/NewsRecommend/backend/mysql/data:/var/lib/mysql"
-      - "/home/hy/work/NewsRecommend/backend/mysql/conf:/etc/mysql/conf.d/"
-      # - "/home/hy/work/NewsRecommend/backend/mysql/init:/docker-entrypoint-initdb.d"
+      #      - ./mysql/conf:/etc/mysql/conf.d
+      #      - ./mysql/logs:/logs
+      #      - ./mysql/data:/var/lib/mysql
+      - ./docker/mysql/db:/docker-entrypoint-initdb.d
+    command: [
+      'mysqld',
+      '--innodb-buffer-pool-size=2G',
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_unicode_ci',
+      '--default-time-zone=+8:00',
+      '--lower-case-table-names=2'
+    ]
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456 #上线修改为复杂密码，否则很容易被黑
     networks:
-      - newsrec
+      - newsrec-net
 
   user-service:
+    restart: on-failure
     build: ./user-service
     ports:
       - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - NEWSREC_DB_HOST=mysql
+      - NEWSREC_DB_PORT=3306
+      - NEWSREC_DB_PW=123456
+      - NEWSREC_DB_DATABASE=nr_user
+      - SPRING_CLOUD_NACOS_SERVER-ADDR=nacos:8848
     depends_on:
       - mysql
       - nacos
     networks:
-      - newsrec
-  bybbop;;n'm
+      - newsrec-net
    
   news-service:
+    restart: on-failure
     build: ./news-service
     ports:
       - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - NEWSREC_DB_HOST=mysql
+      - NEWSREC_DB_PORT=3306
+      - NEWSREC_DB_PW=123456
+      - NEWSREC_DB_DATABASE=nr_new
+      - SPRING_CLOUD_NACOS_SERVER-ADDR=nacos:8848
     depends_on:
       - mysql
       - nacos
     networks:
-      - newsrec
+      - newsrec-net
 
   operation-service:
+    restart: on-failure
     build: ./operation-service
     ports:
       - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - NEWSREC_DB_HOST=mysql
+      - NEWSREC_DB_PORT=3306
+      - NEWSREC_DB_PW=123456
+      - NEWSREC_DB_DATABASE=nr_operation
+      - SPRING_CLOUD_NACOS_SERVER-ADDR=nacos:8848
     depends_on:
       - mysql
       - nacos
     networks:
-      - newsrec
+      - newsrec-net
 
 networks:
-  newsrec:
-    driver: bridge
+  newsrec-net:
     ipam:
+      driver: default # 默认的IPAM驱动程序
       config:
-        - subnet: 172.20.0.0/16
+        - subnet: 172.30.0.0/16
