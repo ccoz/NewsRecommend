@@ -36,9 +36,6 @@ services:
   mysql:
     container_name: mysql
     image: mysql:8.0.27
-    build:
-      context: ./docker/mysql
-      dockerfile: Dockerfile
     ports:
       - "3306:3306" # 有经验的开发不会直接暴露3306端口
     volumes:
@@ -62,6 +59,8 @@ services:
   user-service:
     restart: on-failure
     build: ./user-service
+    # 容器名称
+    container_name: user-service
     ports:
       - "8081:8081"
     environment:
@@ -80,6 +79,8 @@ services:
   news-service:
     restart: on-failure
     build: ./news-service
+    # 容器名称
+    container_name: news-service
     ports:
       - "8083:8083"
     environment:
@@ -98,6 +99,8 @@ services:
   operation-service:
     restart: on-failure
     build: ./operation-service
+    # 容器名称
+    container_name: operation-service
     ports:
       - "8085:8085"
     environment:
