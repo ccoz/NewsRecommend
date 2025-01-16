@@ -43,7 +43,8 @@ services:
       - nacos
     networks:
       - newsrec
-
+  bybbop;;n'm
+   
   news-service:
     build: ./news-service
     ports:
