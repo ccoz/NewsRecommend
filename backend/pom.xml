@@ -13,6 +13,7 @@
         <module>nr-api</module>
         <module>news-service</module>
         <module>operation-service</module>
+        <module>nr-gateway</module>
     </modules>
     <version>1.0.0</version>
 

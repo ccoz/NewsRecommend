@@ -56,6 +56,21 @@ services:
     networks:
       - newsrec-net
 
+  nr-gateway:
+    restart: on-failure
+    build: ./nr-gateway
+    # 容器名称
+    container_name: nr-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_CLOUD_NACOS_SERVER-ADDR=nacos:8848
+    depends_on:
+      - mysql
+      - nacos
+    networks:
+      - newsrec-net
+
   user-service:
     restart: on-failure
     build: ./user-service
