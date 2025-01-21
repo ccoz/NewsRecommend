@@ -1,4 +1,4 @@
-package com.hmall.common.exception;
+package csu.nr.common.exception;
 
 public class UnauthorizedException extends CommonException{
 

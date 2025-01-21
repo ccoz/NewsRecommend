@@ -16,7 +16,7 @@ public class NewController {
     private final INewService newService;
 
     @ApiOperation("根据id查询新闻")
-    @GetMapping("{id}")
+    @GetMapping("/detail/{id}")
     public NewDTO queryNewById(@PathVariable("id") Long id) {
         return BeanUtils.copyBean(newService.getById(id), NewDTO.class);
     }

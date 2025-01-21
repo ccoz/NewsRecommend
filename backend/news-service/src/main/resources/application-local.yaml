@@ -5,4 +5,4 @@ newsrec:
     pw: 123456 # 修改为docker中的MySQL密码
     database: nr_new # 修改为你自己的数据库名
   nacos:
-    server-addr: localhost
+    server-addr: localhost:8848

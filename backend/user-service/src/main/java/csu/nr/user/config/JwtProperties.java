@@ -1,4 +1,4 @@
-package csu.nr.gateway.config;
+package csu.nr.user.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

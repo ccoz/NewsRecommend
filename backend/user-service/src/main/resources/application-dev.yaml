@@ -3,6 +3,6 @@ newsrec:
     host: ${NEWSREC_DB_HOST:localhost}
     port: ${NEWSREC_DB_PORT:3306}
     pw: ${NEWSREC_DB_PW:123456}
-    database: ${NEWSREC_DB_DATABASE:nr_new}
+    database: ${NEWSREC_DB_DATABASE:nr_user}
   nacos:
     server-addr: ${SPRING_CLOUD_NACOS_SERVER-ADDR:localhost:8848}

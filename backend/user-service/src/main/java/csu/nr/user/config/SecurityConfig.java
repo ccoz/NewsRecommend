@@ -1,4 +1,4 @@
-package csu.nr.gateway.config;
+package csu.nr.user.config;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

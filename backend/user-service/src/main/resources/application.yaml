@@ -42,3 +42,10 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - csu.nr.user.controller
+nr:
+  jwt:
+    #    location: classpath:newsrec.jks
+    location: file:D:\Source\Java\NewsRecommend\backend\nr-gateway\src\main\resources\newsrec.jks
+    alias: newsrec
+    password: newsrec
+    tokenTTL: 30m

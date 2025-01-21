@@ -1,19 +1,22 @@
 package csu.nr.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import csu.nr.user.mapper.UserMapper;
-import csu.nr.user.service.IUserService;
 import csu.nr.api.domain.dto.LoginFormDTO;
 import csu.nr.api.domain.po.User;
 import csu.nr.api.domain.vo.UserLoginVO;
 import csu.nr.api.enums.UserStatus;
+import csu.nr.user.config.JwtProperties;
+import csu.nr.user.mapper.UserMapper;
+import csu.nr.user.service.IUserService;
+import csu.nr.user.utils.JwtTool;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
-
-
+    private final JwtTool jwtTool;
+    private final JwtProperties jwtProperties;
     @Override
     public UserLoginVO login(LoginFormDTO loginFormDTO) {
         // 1.获取用户数据
@@ -31,12 +34,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new IllegalArgumentException("密码错误");
         }
         // 5.生成token
-        // String token = jwtTool.createToken(user.getId(), jwtProperties.getTokenTTL());
+         String token = jwtTool.createToken(user.getId(), jwtProperties.getTokenTTL());
         // 6.封装VO返回
         UserLoginVO userLoginVO = new UserLoginVO();
         userLoginVO.setUserId(user.getId());
         userLoginVO.setUsername(user.getUsername());
-        userLoginVO.setToken("token");
+        userLoginVO.setToken(token);
         return userLoginVO;
     }
 }
